@@ -23,7 +23,7 @@ public class Controller {
 
 	@GetMapping("hello")
 	String getItem() {
-		return "hello";
+		return "hi";
 	}
 
 	@PostMapping("quote")
