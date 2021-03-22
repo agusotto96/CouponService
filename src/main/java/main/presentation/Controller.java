@@ -2,7 +2,6 @@ package main.presentation;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,12 +20,7 @@ public class Controller {
 		this.fetcher = consumer;
 	}
 
-	@GetMapping("hello")
-	String getItem() {
-		return "hi";
-	}
-
-	@PostMapping("quote")
+	@PostMapping("coupon")
 	Coupon getItem(@RequestBody Coupon coupon) {
 		List<Item> items = fetcher.getItems(coupon.getItemsIds());
 		return null;
