@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -22,9 +21,9 @@ public class ItemDataHandler {
 
 	private ItemRepository cache;
 	private RestTemplate restTemplate;
-	private final long rate = 10;
+	private final long cacheFlushRateInSeconds = 10;
 	private final String baseUrl = "https://api.mercadolibre.com/items";
-	private final String urlParameterKey = "?ids=";
+	private final String urlParameterKey = "ids";
 
 	private ItemDataHandler(ItemRepository cache, RestTemplate restTemplate) {
 		super();
@@ -32,7 +31,7 @@ public class ItemDataHandler {
 		this.restTemplate = restTemplate;
 	}
 
-	public List<Item> getItems(Set<String> ids) {
+	public List<Item> getItems(List<String> ids) {
 
 		List<Item> items = getCachedItems(ids);
 
@@ -49,19 +48,19 @@ public class ItemDataHandler {
 
 	}
 
-	@Scheduled(fixedRate = rate * 1000)
+	@Scheduled(fixedRate = cacheFlushRateInSeconds * 1000)
 	private void cleanCache() {
-		cache.deleteBylastUpdateLessThan(LocalDateTime.now().minusSeconds(rate));
+		cache.deleteBylastUpdateLessThan(LocalDateTime.now().minusSeconds(cacheFlushRateInSeconds));
 	}
 
-	public List<Item> getCachedItems(Set<String> ids) {
+	private List<Item> getCachedItems(List<String> ids) {
 		return (List<Item>) cache.findAllById(ids);
 	}
 
-	private List<Item> getLiveItems(Set<String> ids) {
+	private List<Item> getLiveItems(List<String> ids) {
 
 		String urlParameterValues = ids.stream().collect(Collectors.joining(","));
-		String url = baseUrl + urlParameterKey + urlParameterValues;
+		String url = baseUrl + "?" + urlParameterKey + "=" + urlParameterValues;
 
 		ResponseEntity<Response[]> responses;
 		try {

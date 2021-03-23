@@ -13,11 +13,21 @@ public class Item {
 	private Double price;
 	private LocalDateTime lastUpdate;
 
+	public Item() {
+		super();
+	}
+
+	public Item(Double price, LocalDateTime lastUpdate) {
+		super();
+		this.price = price;
+		this.lastUpdate = lastUpdate;
+	}
+
 	public String getId() {
 		return id;
 	}
 
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
@@ -27,6 +37,11 @@ public class Item {
 
 	public void update() {
 		this.lastUpdate = LocalDateTime.now();
+	}
+
+	@Override
+	public String toString() {
+		return "" + price;
 	}
 
 }

@@ -1,16 +1,19 @@
 package main.model;
 
-import java.util.Set;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 public class Coupon {
 
-	@JsonProperty("item_ids")
-	Set<String> itemIds;
+	List<String> itemIds;
 	double amount;
 
-	public Set<String> getItemsIds() {
+	public Coupon(List<String> itemIds, double amount) {
+		super();
+		this.itemIds = itemIds;
+		this.amount = amount;
+	}
+
+	public List<String> getItemsIds() {
 		return itemIds;
 	}
 
