@@ -70,7 +70,7 @@ public class ItemDataHandler {
 		}
 
 		List<Item> items = Arrays.stream(responses.getBody())
-				.filter(response -> response.getCode() != HttpStatus.ACCEPTED.value())
+				.filter(response -> response.getCode() == HttpStatus.OK.value())
 				.map(response -> response.getBody()).collect(Collectors.toList());
 
 		return items;
