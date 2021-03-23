@@ -1,5 +1,6 @@
 package main.logic;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,13 +24,15 @@ public class CouponCalculator {
 		List<Integer> selectedItemsIndex = calculateOptimalSelection(prices, budget);
 
 		List<String> selectedItemsIds = new ArrayList<>(selectedItemsIndex.size());
-		double spent = 0;
+		BigDecimal spent = BigDecimal.ZERO;
 		for (int index : selectedItemsIndex) {
 			selectedItemsIds.add(items.get(index).getId());
-			spent += items.get(index).getPrice();
+			spent = spent.add(BigDecimal.valueOf(items.get(index).getPrice()));
 		}
 
-		return new Coupon(selectedItemsIds, spent);
+		spent.setScale(2);
+
+		return new Coupon(selectedItemsIds, spent.doubleValue());
 
 	}
 
