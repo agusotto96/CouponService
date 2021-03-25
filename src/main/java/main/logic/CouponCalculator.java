@@ -7,20 +7,18 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import main.model.Coupon;
-import main.model.Item;
+import main.entity.Coupon;
+import main.entity.Item;
 
 @Service
 public class CouponCalculator {
 
-	public Coupon getBestPriceCombination(List<Item> items, double budget) {
+	public Coupon getOptimalCoupon(List<Item> items, double budget) {
 
-		int budgetInCents = (int) (budget * 100);
-
-		Map<Integer, List<String>> reachedBudgets = new HashMap<>(budgetInCents + 1);
-
-		reachedBudgets.put(0, new ArrayList<>());
 		int closestBudget = 0;
+		int budgetInCents = (int) (budget * 100);
+		Map<Integer, List<String>> reachedBudgets = new HashMap<>(budgetInCents + 1);
+		reachedBudgets.put(0, new ArrayList<>());
 
 		for (Item item : items) {
 

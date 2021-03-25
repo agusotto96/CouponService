@@ -1,8 +1,8 @@
-package main.presentation;
+package main.data;
 
-import main.model.Item;
+import main.entity.Item;
 
-public class Response {
+public class ItemWrapper {
 
 	private int code;
 	private Item body;

@@ -13,22 +13,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import main.model.Item;
-import main.presentation.Response;
+import main.entity.Item;
 
 @Service
 public class ItemDataHandler {
 
-	private ItemRepository cache;
-	private RestTemplate restTemplate;
-	private final long cacheFlushRateInSeconds = 10;
+	private ItemRepository itemRepository;
+	private RestTemplate restTemplate = new RestTemplate();
+	private final long cacheFlushRateInSeconds = 10000;
 	private final String baseUrl = "https://api.mercadolibre.com/items";
 	private final String urlParameterKey = "ids";
 
-	private ItemDataHandler(ItemRepository cache, RestTemplate restTemplate) {
+	private ItemDataHandler(ItemRepository cache) {
 		super();
-		this.cache = cache;
-		this.restTemplate = restTemplate;
+		this.itemRepository = cache;
+	}
+
+	@Scheduled(fixedRate = cacheFlushRateInSeconds)
+	private void cleanCache() {
+		itemRepository.deleteBylastUpdateLessThan(LocalDateTime.now().minusSeconds(cacheFlushRateInSeconds / 1000));
 	}
 
 	public List<Item> getItems(List<String> ids) {
@@ -48,13 +51,8 @@ public class ItemDataHandler {
 
 	}
 
-	@Scheduled(fixedRate = cacheFlushRateInSeconds * 1000)
-	private void cleanCache() {
-		cache.deleteBylastUpdateLessThan(LocalDateTime.now().minusSeconds(cacheFlushRateInSeconds));
-	}
-
 	private List<Item> getCachedItems(List<String> ids) {
-		return (List<Item>) cache.findAllById(ids);
+		return (List<Item>) itemRepository.findAllById(ids);
 	}
 
 	private List<Item> getLiveItems(List<String> ids) {
@@ -62,23 +60,23 @@ public class ItemDataHandler {
 		String urlParameterValues = ids.stream().collect(Collectors.joining(","));
 		String url = baseUrl + "?" + urlParameterKey + "=" + urlParameterValues;
 
-		ResponseEntity<Response[]> responses;
+		ResponseEntity<ItemWrapper[]> responses;
 		try {
-			responses = restTemplate.getForEntity(url, Response[].class);
+			responses = restTemplate.getForEntity(url, ItemWrapper[].class);
 		} catch (RestClientException e) {
 			return new ArrayList<>();
 		}
 
 		List<Item> items = Arrays.stream(responses.getBody())
-				.filter(response -> response.getCode() == HttpStatus.OK.value())
-				.map(response -> response.getBody()).collect(Collectors.toList());
+				.filter(wrapper -> wrapper.getCode() == HttpStatus.OK.value())
+				.map(wrapper -> wrapper.getBody()).collect(Collectors.toList());
 
 		return items;
 
 	}
 
 	private void saveToCache(List<Item> items) {
-		cache.saveAll(items);
+		itemRepository.saveAll(items);
 	}
 
 }
