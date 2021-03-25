@@ -24,18 +24,18 @@ public class CouponCalculator {
 
 		for (Item item : items) {
 
-			int price = (int) (item.getPrice().doubleValue() * 100);
+			int priceInCents = (int) (item.getPrice().doubleValue() * 100);
 
-			for (int i = budgetInCents - price; i >= 0; i--) {
+			for (int i = budgetInCents - priceInCents; i >= 0; i--) {
 
-				if (reachedBudgets.containsKey(i) && !reachedBudgets.containsKey(i + price)) {
+				if (reachedBudgets.containsKey(i) && !reachedBudgets.containsKey(i + priceInCents)) {
 
 					List<String> priceCombination = new ArrayList<>(reachedBudgets.get(i));
 					priceCombination.add(item.getId());
-					reachedBudgets.put(i + price, priceCombination);
+					reachedBudgets.put(i + priceInCents, priceCombination);
 
-					if (i + price > closestBudget) {
-						closestBudget = i + price;
+					if (i + priceInCents > closestBudget) {
+						closestBudget = i + priceInCents;
 					}
 
 				}
