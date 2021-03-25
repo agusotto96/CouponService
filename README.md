@@ -2,7 +2,7 @@
 Web service whose main function is to recommend a subset of a user's favorite products according to the amount of a gift coupon.
 The sum of the prices of the subset should be as close as possible to the coupon amount without exceeding it.
 
-## Installation:
+## Installation: (Java 11 and maven required)
 
  * ```mkdir workspace```
 
