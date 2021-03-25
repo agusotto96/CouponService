@@ -15,7 +15,9 @@ The sum of the prices of the subset should be as close as possible to the coupon
  * ```mvn spring-boot:run```
 
 ## Demo:
-A demo is hosted at Heroku -> https://infinite-cove-80203.herokuapp.com
+A demo is hosted at Heroku: https://infinite-cove-80203.herokuapp.com
+
+Request example:
 ```
 curl --location --request POST 'https://infinite-cove-80203.herokuapp.com/coupon' \
 --header 'Content-Type: application/json' \
