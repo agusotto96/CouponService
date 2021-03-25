@@ -15,7 +15,7 @@ public class CouponCalculator {
 
 	public Coupon getBestPriceCombination(List<Item> items, double budget) {
 
-		int budgetInCents = (int) budget * 100;
+		int budgetInCents = (int) (budget * 100);
 
 		Map<Integer, List<String>> reachedBudgets = new HashMap<>(budgetInCents + 1);
 
@@ -24,7 +24,7 @@ public class CouponCalculator {
 
 		for (Item item : items) {
 
-			int price = (int) item.getPrice().doubleValue() * 100;
+			int price = (int) (item.getPrice().doubleValue() * 100);
 
 			for (int i = budgetInCents - price; i >= 0; i--) {
 
