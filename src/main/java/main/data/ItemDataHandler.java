@@ -20,7 +20,7 @@ public class ItemDataHandler {
 
 	private ItemRepository itemRepository;
 	private RestTemplate restTemplate = new RestTemplate();
-	private final long cacheFlushRateInSeconds = 10000;
+	private final long cacheFlushRateMiliseconds = 10000;
 	private final String baseUrl = "https://api.mercadolibre.com/items";
 	private final String urlParameterKey = "ids";
 
@@ -29,9 +29,9 @@ public class ItemDataHandler {
 		this.itemRepository = cache;
 	}
 
-	@Scheduled(fixedRate = cacheFlushRateInSeconds)
+	@Scheduled(fixedRate = cacheFlushRateMiliseconds)
 	private void cleanCache() {
-		itemRepository.deleteBylastUpdateLessThan(LocalDateTime.now().minusSeconds(cacheFlushRateInSeconds / 1000));
+		itemRepository.deleteBylastUpdateLessThan(LocalDateTime.now().minusSeconds(cacheFlushRateMiliseconds / 1000));
 	}
 
 	public List<Item> getItems(List<String> ids) {
