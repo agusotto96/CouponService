@@ -1,7 +1,6 @@
 package main.data;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import main.entity.Item;
@@ -60,12 +58,7 @@ public class ItemDataHandler {
 		String urlParameterValues = ids.stream().collect(Collectors.joining(","));
 		String url = baseUrl + "?" + urlParameterKey + "=" + urlParameterValues;
 
-		ResponseEntity<ItemWrapper[]> responses;
-		try {
-			responses = restTemplate.getForEntity(url, ItemWrapper[].class);
-		} catch (RestClientException e) {
-			return new ArrayList<>();
-		}
+		ResponseEntity<ItemWrapper[]> responses = restTemplate.getForEntity(url, ItemWrapper[].class);
 
 		List<Item> items = Arrays.stream(responses.getBody())
 				.filter(wrapper -> wrapper.getCode() == HttpStatus.OK.value())
