@@ -1,8 +1,9 @@
 package main.logic;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -12,75 +13,38 @@ import main.model.Item;
 @Service
 public class CouponCalculator {
 
-	public Coupon calculateBestCombination(List<Item> items, double amount) {
+	public Coupon getBestPriceCombination(List<Item> items, double budget) {
 
-		int budget = (int) amount * 100;
-		int[] prices = new int[items.size()];
+		int budgetInCents = (int) budget * 100;
 
-		for (int i = 0; i < items.size(); i++) {
-			prices[i] = (int) items.get(i).getPrice().doubleValue() * 100;
-		}
+		Map<Integer, List<String>> reachedBudgets = new HashMap<>(budgetInCents + 1);
 
-		List<Integer> selectedItemsIndex = calculateOptimalSelection(prices, budget);
+		reachedBudgets.put(0, new ArrayList<>());
+		int closestBudget = 0;
 
-		List<String> selectedItemsIds = new ArrayList<>(selectedItemsIndex.size());
-		BigDecimal spent = BigDecimal.ZERO;
-		for (int index : selectedItemsIndex) {
-			selectedItemsIds.add(items.get(index).getId());
-			spent = spent.add(BigDecimal.valueOf(items.get(index).getPrice()));
-		}
+		for (Item item : items) {
 
-		spent.setScale(2);
+			int price = (int) item.getPrice().doubleValue() * 100;
 
-		return new Coupon(selectedItemsIds, spent.doubleValue());
+			for (int i = budgetInCents - price; i >= 0; i--) {
 
-	}
+				if (reachedBudgets.containsKey(i) && !reachedBudgets.containsKey(i + price)) {
 
-	private List<Integer> calculateOptimalSelection(int[] prices, int budget) {
+					List<String> priceCombination = new ArrayList<>(reachedBudgets.get(i));
+					priceCombination.add(item.getId());
+					reachedBudgets.put(i + price, priceCombination);
 
-		int[][] dp = new int[prices.length][budget + 1];
+					if (i + price > closestBudget) {
+						closestBudget = i + price;
+					}
 
-		for (int i = 0; i < prices.length; i++) {
-			dp[i][0] = 0;
-		}
-
-		for (int c = 0; c <= budget; c++) {
-			if (prices[0] <= c) {
-				dp[0][c] = prices[0];
-			}
-		}
-
-		for (int i = 1; i < prices.length; i++) {
-
-			for (int c = 1; c <= budget; c++) {
-
-				int profit1 = prices[i] <= c ? prices[i] + dp[i - 1][c - prices[i]] : 0;
-				int profit2 = dp[i - 1][c];
-
-				dp[i][c] = Math.max(profit1, profit2);
+				}
 
 			}
 
 		}
 
-		List<Integer> selectedWeights = new ArrayList<>();
-		int totalProfit = dp[prices.length - 1][budget];
-
-		for (int i = prices.length - 1; i > 0; i--) {
-
-			if (totalProfit != dp[i - 1][budget]) {
-				selectedWeights.add(i);
-				budget -= prices[i];
-				totalProfit -= prices[i];
-			}
-
-		}
-
-		if (totalProfit != 0) {
-			selectedWeights.add(0);
-		}
-
-		return selectedWeights;
+		return new Coupon(reachedBudgets.get(closestBudget), closestBudget / 100.0);
 
 	}
 

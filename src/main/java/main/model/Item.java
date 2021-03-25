@@ -39,9 +39,4 @@ public class Item {
 		this.lastUpdate = LocalDateTime.now();
 	}
 
-	@Override
-	public String toString() {
-		return "" + price;
-	}
-
 }

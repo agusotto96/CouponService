@@ -26,7 +26,7 @@ public class Controller {
 	@PostMapping("coupon")
 	Coupon getItem(@RequestBody Coupon coupon) {
 		List<Item> items = fetcher.getItems(coupon.getItemsIds());
-		return couponCalculator.calculateBestCombination(items, coupon.getAmount());
+		return couponCalculator.getBestPriceCombination(items, coupon.getAmount());
 	}
 
 }
