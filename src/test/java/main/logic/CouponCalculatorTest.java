@@ -1,15 +1,16 @@
-package com.meli.coupon;
+package main.logic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import main.entity.Coupon;
 import main.entity.Item;
-import main.logic.CouponCalculator;
 
+@SpringBootTest
 public class CouponCalculatorTest {
 
 	private CouponCalculator couponCalculator = new CouponCalculator();
