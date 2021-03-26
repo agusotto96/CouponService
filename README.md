@@ -18,7 +18,7 @@ Request example:
 curl --location --request POST 'https://infinite-cove-80203.herokuapp.com/coupon' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "itemIds": [
+    "item_ids": [
         "MLA766066779",
         "MLA874724627",
         "MLA877668710",
