@@ -1,6 +1,6 @@
 # CouponService
 Web service whose main function is to recommend a subset of a user's favorite products according to the amount of a gift coupon.
-The sum of the prices of the subset should be as close as possible to the coupon amount without exceeding it.
+The sum of the prices of the subset should be as close as possible to the coupon's amount without exceeding it.
 
 ## Installation: (Java 11 & Maven required)
 
