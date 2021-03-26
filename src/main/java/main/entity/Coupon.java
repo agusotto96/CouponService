@@ -2,10 +2,13 @@ package main.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Coupon {
 
-	List<String> itemIds;
-	double amount;
+	@JsonProperty("item_ids")
+	private List<String> itemIds;
+	private double amount;
 
 	public Coupon(List<String> itemIds, double amount) {
 		super();
@@ -13,7 +16,7 @@ public class Coupon {
 		this.amount = amount;
 	}
 
-	public List<String> getItemsIds() {
+	public List<String> getItemIds() {
 		return itemIds;
 	}
 

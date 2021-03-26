@@ -28,7 +28,7 @@ public class CouponCalculatorTest {
 		Coupon coupon = couponCalculator.getOptimalCoupon(items, budget);
 
 		assertEquals(coupon.getAmount(), 480.0);
-		assertEquals(coupon.getItemsIds(), List.of("MLA1", "MLA2", "MLA4", "MLA5"));
+		assertEquals(coupon.getItemIds(), List.of("MLA1", "MLA2", "MLA4", "MLA5"));
 
 	}
 	
@@ -42,7 +42,7 @@ public class CouponCalculatorTest {
 		Coupon coupon = couponCalculator.getOptimalCoupon(items, budget);
 
 		assertEquals(coupon.getAmount(), 0.0);
-		assertEquals(coupon.getItemsIds(), List.of());
+		assertEquals(coupon.getItemIds(), List.of());
 
 	}
 	
@@ -61,7 +61,7 @@ public class CouponCalculatorTest {
 		Coupon coupon = couponCalculator.getOptimalCoupon(items, budget);
 
 		assertEquals(coupon.getAmount(), 0.0);
-		assertEquals(coupon.getItemsIds(), List.of());
+		assertEquals(coupon.getItemIds(), List.of());
 
 	}
 	
@@ -80,7 +80,7 @@ public class CouponCalculatorTest {
 		Coupon coupon = couponCalculator.getOptimalCoupon(items, budget);
 
 		assertEquals(coupon.getAmount(), 740.0);
-		assertEquals(coupon.getItemsIds(), List.of("MLA1", "MLA2", "MLA3", "MLA4", "MLA5"));
+		assertEquals(coupon.getItemIds(), List.of("MLA1", "MLA2", "MLA3", "MLA4", "MLA5"));
 
 	}
 	
@@ -99,7 +99,7 @@ public class CouponCalculatorTest {
 		Coupon coupon = couponCalculator.getOptimalCoupon(items, budget);
 
 		assertEquals(coupon.getAmount(), 500.0);
-		assertEquals(coupon.getItemsIds(), List.of("MLA3"));
+		assertEquals(coupon.getItemIds(), List.of("MLA3"));
 
 	}
 	
@@ -117,7 +117,7 @@ public class CouponCalculatorTest {
 		Coupon coupon = couponCalculator.getOptimalCoupon(items, budget);
 
 		assertEquals(coupon.getAmount(), 1.0);
-		assertEquals(coupon.getItemsIds(), List.of("MLA1", "MLA2", "MLA3", "MLA4"));
+		assertEquals(coupon.getItemIds(), List.of("MLA1", "MLA2", "MLA3", "MLA4"));
 
 	}
 

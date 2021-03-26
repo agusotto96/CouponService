@@ -31,11 +31,11 @@ public class CouponController {
 
 		try {
 
-			List<Item> items = itemDataHandler.getItems(coupon.getItemsIds());
+			List<Item> items = itemDataHandler.getItems(coupon.getItemIds());
 
 			Coupon optimalCoupon = couponCalculator.getOptimalCoupon(items, coupon.getAmount());
 
-			if (optimalCoupon.getItemsIds().size() == 0) {
+			if (optimalCoupon.getItemIds().size() == 0) {
 				throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 			}
 
