@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.repository.PagingAndSortingRepository;
 
 import main.entity.Item;
 
-interface ItemRepository extends PagingAndSortingRepository<Item, String> {
+interface ItemRepository extends JpaRepository<Item, String> {
 
 	@Modifying
 	@Transactional

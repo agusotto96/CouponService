@@ -21,7 +21,6 @@ public class Item {
 		super();
 		this.id = id;
 		this.price = price;
-		this.lastUpdate = LocalDateTime.now();
 	}
 
 	public String getId() {

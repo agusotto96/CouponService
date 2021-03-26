@@ -29,25 +29,23 @@ public class CouponController {
 	@PostMapping("coupon")
 	Coupon getItem(@RequestBody Coupon coupon) {
 
-		List<Item> items;
 		try {
-			items = itemDataHandler.getItems(coupon.getItemsIds());
+
+			List<Item> items = itemDataHandler.getItems(coupon.getItemsIds());
+
+			Coupon optimalCoupon = couponCalculator.getOptimalCoupon(items, coupon.getAmount());
+
+			if (optimalCoupon.getItemsIds().size() == 0) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+			}
+
+			return optimalCoupon;
+
 		} catch (RestClientException e) {
 			throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE);
-		}
-
-		Coupon optimalCoupon;
-		try {
-			optimalCoupon = couponCalculator.getOptimalCoupon(items, coupon.getAmount());
 		} catch (IllegalArgumentException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
-
-		if (optimalCoupon.getItemsIds().size() == 0) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-		}
-
-		return optimalCoupon;
 
 	}
 
