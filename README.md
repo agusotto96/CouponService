@@ -4,10 +4,6 @@ The sum of the prices of the subset should be as close as possible to the coupon
 
 ## Installation: (Java 11 & Maven required)
 
- * ```mkdir workspace```
-
- * ```cd workspace```
-
  * ```git clone https://github.com/agusotto96/CouponService.git```
 
  * ```cd CouponService```
