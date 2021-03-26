@@ -17,10 +17,11 @@ public class Item {
 		super();
 	}
 
-	public Item(Double price, LocalDateTime lastUpdate) {
+	public Item(String id, Double price) {
 		super();
+		this.id = id;
 		this.price = price;
-		this.lastUpdate = lastUpdate;
+		this.lastUpdate = LocalDateTime.now();
 	}
 
 	public String getId() {
