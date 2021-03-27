@@ -42,8 +42,8 @@ class ItemApiConsumer {
 	private List<Item> unwrapValidItems(ItemWrapper[] itemWrappers) {
 
 		List<Item> items = Arrays.stream(itemWrappers)
-				.filter(wrapper -> wrapper.getCode() == HttpStatus.OK.value())
-				.map(wrapper -> wrapper.getBody())
+				.filter(wrapper -> wrapper.code == HttpStatus.OK.value())
+				.map(wrapper -> wrapper.body)
 				.collect(Collectors.toList());
 
 		return items;
@@ -52,16 +52,8 @@ class ItemApiConsumer {
 
 	private static class ItemWrapper {
 
-		private int code;
-		private Item body;
-
-		public int getCode() {
-			return code;
-		}
-
-		public Item getBody() {
-			return body;
-		}
+		public int code;
+		public Item body;
 
 	}
 
