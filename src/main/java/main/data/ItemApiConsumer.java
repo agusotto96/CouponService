@@ -50,4 +50,19 @@ class ItemApiConsumer {
 
 	}
 
+	private static class ItemWrapper {
+
+		private int code;
+		private Item body;
+
+		public int getCode() {
+			return code;
+		}
+
+		public Item getBody() {
+			return body;
+		}
+
+	}
+
 }
